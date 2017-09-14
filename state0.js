@@ -1,14 +1,36 @@
 var demo = {};
+var centerX = 1500/2, centerY = 1000/2;
+var pikachu, speed = 4;
 demo.state0 = function(){};
 demo.state0.prototype = {
-    preload: function(){},
+    preload: function(){
+        game.load.image('pikachu','assets/sprites/pikachu.png');
+    },
     create: function(){
-        game.stage.backgroundColor = '#000000';
+        game.stage.backgroundColor = '#880088';
         console.log('state0');
         addChangeStateEventListeners();
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+
+        pikachu = game.add.sprite(centerX,centerY,'pikachu');
+        pikachu.anchor.setTo(0.5,0.5);
     },
-    update: function(){}
+    update: function(){
+        // Horizontal Movement
+        if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
+            pikachu.x += speed;
+        }
+        else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
+            pikachu.x -= speed;
+        }
+        // Vertical Movement
+        if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
+            pikachu.y += speed;
+        }
+        else if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
+            pikachu.y -= speed;
+        }
+    }
 };
 
 function changeState(i,stateNum){
