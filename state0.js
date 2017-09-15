@@ -4,7 +4,8 @@ var pikachu, speed = 4;
 demo.state0 = function(){};
 demo.state0.prototype = {
     preload: function(){
-        game.load.image('pikachu','assets/sprites/pikachu.png');
+        game.load.spritesheet('pikachu',
+        'assets/spritesheets/pikachuSheet.png', 320, 320);
         game.load.image('tree', 'assets/backgrounds/treeBG.png')
     },
     create: function(){
@@ -19,10 +20,10 @@ demo.state0.prototype = {
 
         pikachu = game.add.sprite(centerX,centerY,'pikachu');
         pikachu.anchor.setTo(0.5,0.5);
-        pikachu.scale.setTo(0.7,0.7);
+        pikachu.scale.setTo(-0.7,0.7);
         game.physics.enable(pikachu);
         pikachu.body.collideWorldBounds = true;
-
+        pikachu.animations.add('walk', [0, 1]);
         game.camera.follow(pikachu);
         game.camera.deadzone = new Phaser.Rectangle(centerX-300,0,600,1000);
 
@@ -32,10 +33,16 @@ demo.state0.prototype = {
         if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
             pikachu.scale.setTo(-0.7,0.7);
             pikachu.x += speed;
+            pikachu.animations.play('walk',5,true);
         }
         else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
             pikachu.scale.setTo(0.7,0.7);
             pikachu.x -= speed;
+            pikachu.animations.play('walk',5,true);
+        }
+        else{
+            pikachu.animations.stop('walk');
+            pikachu.frame = 0;
         }
         // Vertical Movement
         if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
